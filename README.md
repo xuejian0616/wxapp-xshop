@@ -1,4 +1,4 @@
-# wxapp-mall
+# wxapp-XShop
 微信小程序 XShop
 
 
