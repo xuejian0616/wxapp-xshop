@@ -1,0 +1,118 @@
+<!--page/component/detail/detail.wxml-->
+<!--轮播图-->
+<swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}">
+  <block wx:for="{{goods_info.images}}">
+    <swiper-item>
+      <image src="{{item}}" mode='scaleToFill' class="slide-image" />
+    </swiper-item>
+  </block>
+</swiper>
+<view class="goods">
+  <view class='name'>{{goods_info.name}}</view>
+  <view class='price'>
+    <text class='left'>￥</text>
+    <text class='shop_price'>{{goods_info.price}}</text>
+    <text class='market_price'>{{goods_info.oldPrice}}</text>
+  </view>
+</view>
+<view class='line'></view>
+<view class='choose_spec'>
+  <text class='left'>已选</text>
+  <view class='spec'>{{selectName}}</view>
+  <view class='more' bindtap='modal_show' data-flag="0">
+    <image class='right' src='/image/reght2.png' bindtap='choose_spec'></image>
+  </view>
+</view>
+<view class='line'></view>
+<!-- 评价 -->
+<!--
+<view class='comment_head'>
+  <text>评价</text>
+  <view class='comment_right'>
+    <image src="/images/detail/more.png"></image>
+  </view>
+</view>
+<view class="line1"></view>
+<view class='comment'>
+  <view class="top">
+    <view class='head_img' style="background: url('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2770691011,100164542&fm=27&gp=0.jpg') no-repeat; background-size: cover;"></view>
+    <text class='nick_name'>疯狂的李狗蛋儿</text>
+    <image class='star' src="/images/detail/star5.png"></image>
+  </view>
+  <view class='comment_content'>回家为维护和额我好卡IE我人文环境人文环境业务8二维大家很快哒二球的大健康大厦火炬大厦会尽快打死大家好的委屈的健康啦即可登录三打架了可完全打卡机</view>
+  <view class='comment_img'>
+    <image class='comment_item_img' src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2770691011,100164542&fm=27&gp=0.jpg"></image>
+    <image class='comment_item_img' src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2770691011,100164542&fm=27&gp=0.jpg"></image>
+    <image class='comment_item_img' src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2770691011,100164542&fm=27&gp=0.jpg"></image>
+    <image class='comment_item_img' src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2770691011,100164542&fm=27&gp=0.jpg"></image>
+  </view>
+</view>
+ -->
+<view class="line"></view>
+<view class='des'>
+  <view class='des_head'>商品详情</view>
+  <view class='line1'></view>
+  <view class='line1'></view>
+  <image class='des_img' mode='widthFix' src="https://img.alicdn.com/imgextra/i2/3001906498/TB2uxtyXiHmJKJjy0FfXXb9aVXa_!!3001906498.jpg"></image>
+</view>
+<!--底部购物车 -->
+<view class='detail_footer'>
+  <view class='detail_cart'>
+    <navigator open-type="switchTab" url="../cart/cart">
+      <image src="/image/cart1.png"></image>
+      <view class='cart_font'>购物车</view>
+    </navigator>
+  </view>
+  <view class='buy' bindtap='modal_show' data-flag="1">立即购买</view>
+  <view class='addCart' bindtap='modal_show' data-flag="2">加入购物车</view>
+</view>
+<!--属性规格选择栏-->
+<view class='mask' style="display:{{choose_modal}}"></view>
+<view class="choose" style="display:{{choose_modal}}">
+  <view class="spec_img_container">
+    <image src="{{default_spe_img}}"></image>
+    <view class="amount">￥{{amount}}</view>
+    <view class="selectSpecNum">库存 {{specNum}}件</view>
+    <view class="modal_de_select">{{selectName}}</view>
+    <icon class="clear" type='clear' bindtap="modal_none"></icon>
+  </view>
+  <!--选择开始 -->
+  <view class="spec_view_container">
+    <view class="modal_de_select">{{selectName}}</view>
+    <view class="modal_spec">
+      <view class="modal_spec_name">规格</view>
+        <view class='modal_spec_group'>
+          <block wx:for="{{normList}}">
+            <view class="modal_spec_item_{{item.isSelect}}" data-select-index="0" data-attr-index="{{index}}" data-attr-id="{{item.norm}}" bindtap='clickAttr'> {{item.norm}}</view>
+          </block>
+        </view>
+        <view class="modal_spec_name">尺码</view>
+        <view class='modal_spec_group'>
+          <block wx:for="{{sizeList}}">
+            <view class="modal_spec_item_{{item.isSelect}}" data-select-index="1" data-attr-index="{{index}}" data-attr-id="{{item.size}}" bindtap='clickAttr'> {{item.size}}</view>
+          </block>
+        </view>
+    </view>
+  </view>
+  <!--选择结束 -->
+  <view class="buy_num">
+    <view class="font_num">购买数量：</view>
+    <view class="stepper">
+      <!-- 减号 -->
+      <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
+      <!-- 数值 -->
+      <input type="number" bindchange="bindManual" value="{{num}}" />
+      <!-- 加号 -->
+      <text class="normal" bindtap="bindPlus">+</text>
+    </view>
+  </view>
+  <block wx:if="{{flag > 0}}">
+    <view class="modal_button" bindtap="submitBtn">确认</view>
+  </block>
+  <block else>
+    <view class="modal_button_two">
+      <button class="modal_cart" bindtap="addCar">加入购物车</button>
+      <button class="modal_buy" bindtap="goBuy">立即购买</button>
+    </view>
+  </block>
+</view>

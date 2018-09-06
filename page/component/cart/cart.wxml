@@ -1,0 +1,65 @@
+<view class="main">
+    <view wx:if="{{hasList}}">
+        <view class="cart-box">
+            <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
+                <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
+                <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList"/>
+                <navigator url="../details/details?goodsId={{item.goodsId}}"><image class="cart-thumb" src="{{item.img}}"></image></navigator>
+                <text class="cart-pro-name">{{item.goodsName}}</text>
+                <text class="cart-del" bindtap="deleteList" data-index="{{index}}" >删除</text>
+                <text class="cart-spec" bindtap="modal_show" data-index="{{index}}" >{{item.goodsSpec}}</text>
+                <text class="cart-pro-price">￥{{item.price}}</text>
+                <view class="cart-count-box">
+                    <text class="cart-count-down" bindtap="minusCount" data-obj="{{obj}}" data-index="{{index}}">-</text>
+                    <text class="cart-count-num">{{item.num}}</text>
+                    <text class="cart-count-add" bindtap="addCount" data-index="{{index}}" >+</text>
+                </view>
+            </view>
+        </view>
+
+        <view class="cart-footer">
+            <icon wx:if="{{selectAllStatus}}" type="success_circle" color="#fff" class="total-select" bindtap="selectAll"/>
+            <icon wx:else type="circle" color="#fff" class="total-select" bindtap="selectAll"/>
+            <view class="order-icon">
+                <!--<navigator url="../orders/orders"><image src="/image/icon3.png"></image></navigator>-->
+                <navigator bindtap="goOrderPage"><image src="/image/icon3.png"></image></navigator>
+            </view>
+            <text>全选</text>
+            <text class="cart-toatl-price">￥{{totalPrice}}</text>
+        </view>
+    </view>
+    <view wx:else>
+        <view class="cart-no-data">购物车是空的哦~</view>
+    </view>
+</view>
+
+<!--属性规格选择栏-->
+<view class='mask' style="display:{{choose_modal}}"></view>
+<view class="choose" style="display:{{choose_modal}}">
+  <view class="spec_img_container">
+    <image src="{{default_spe_img}}"></image>
+    <view class="amount">￥{{amount}}</view>
+    <view class="selectSpecNum">库存 {{specNum}}件</view>
+    <view class="modal_de_select">{{selectName}}</view>
+    <icon class="clear" type='clear' bindtap="modal_none"></icon>
+  </view>
+  <!--选择开始 -->
+  <view class="spec_view_container">
+    <view class="modal_de_select">{{selectName}}</view>
+    <view class="modal_spec">
+      <view class="modal_spec_name">规格</view>
+        <view class='modal_spec_group'>
+          <block wx:for="{{normList}}">
+            <view class="modal_spec_item_{{item.isSelect}}" data-select-index="0" data-attr-index="{{index}}" data-attr-id="{{item.norm}}" bindtap='clickAttr'> {{item.norm}}</view>
+          </block>
+        </view>
+        <view class="modal_spec_name">尺码</view>
+        <view class='modal_spec_group'>
+          <block wx:for="{{sizeList}}">
+            <view class="modal_spec_item_{{item.isSelect}}" data-select-index="1" data-attr-index="{{index}}" data-attr-id="{{item.size}}" bindtap='clickAttr'> {{item.size}}</view>
+          </block>
+        </view>
+    </view>
+    <view class="modal_button" bindtap="updateSpec">确认</view>
+  </view>
+</view>
